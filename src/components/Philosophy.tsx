@@ -1,6 +1,38 @@
+import { useLayoutEffect, useRef } from 'react'
+import { animated } from '@react-spring/web'
+import { useMouseParallax } from '../lib/useMouseParallax'
+import { gsap, prefersReducedMotion } from '../lib/scroll'
 import { Cross, Meta } from './ui'
 
 export function Philosophy() {
+  const exhibit = useRef<HTMLDivElement>(null)
+  const imgRef = useRef<HTMLImageElement>(null)
+  // same layered motion as the hero/CTA backdrops: springy mouse drift + scroll zoom
+  const mouse = useMouseParallax(-28, -18)
+
+  useLayoutEffect(() => {
+    if (prefersReducedMotion()) return
+    const tween = gsap.fromTo(
+      imgRef.current,
+      { scale: 1.12, yPercent: 0 },
+      {
+        scale: 1.26,
+        yPercent: 7,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: exhibit.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.6,
+        },
+      },
+    )
+    return () => {
+      tween.scrollTrigger?.kill()
+      tween.kill()
+    }
+  }, [])
+
   return (
     <section className="relative z-20 w-full overflow-hidden border-t border-white/10 bg-neutral-950">
       {/* ambient glow orb (§8.9) */}
@@ -41,14 +73,20 @@ export function Philosophy() {
         </div>
 
         {/* exhibit — generated neural wireframe */}
-        <div className="relative min-h-[420px] overflow-hidden md:col-span-5 md:min-h-[560px]">
-          <img
-            src="/neural-brain.webp"
-            alt="Ilustração técnica de um cérebro em wireframe com trajetos neurais destacados em vermelho"
-            className="absolute inset-0 h-full w-full scale-110 object-cover"
-            data-speed="auto"
-            loading="lazy"
-          />
+        <div
+          ref={exhibit}
+          className="relative min-h-[420px] overflow-hidden md:col-span-5 md:min-h-[560px]"
+        >
+          <animated.div style={mouse} className="absolute inset-0 will-change-transform">
+            <img
+              ref={imgRef}
+              src="/neural-brain.webp"
+              alt="Ilustração técnica de um cérebro em wireframe com trajetos neurais destacados em vermelho"
+              className="h-full w-full scale-[1.12] object-cover will-change-transform"
+              loading="lazy"
+              decoding="async"
+            />
+          </animated.div>
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-neutral-950/70 via-transparent to-neutral-950/40" />
           <Cross className="-left-[5px] -top-[5px] hidden md:block" />
         </div>

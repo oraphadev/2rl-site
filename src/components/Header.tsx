@@ -75,12 +75,6 @@ export function Header() {
                 }`}
               >
                 {l.label}
-                <span
-                  aria-hidden="true"
-                  className={`absolute -bottom-1.5 left-0 h-px w-full origin-left bg-red-500 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                    isActive ? 'scale-x-100' : 'scale-x-0'
-                  }`}
-                />
               </a>
             )
           })}
@@ -134,13 +128,6 @@ export function Header() {
           )}
         </AnimatePresence>
       </div>
-
-      {/* progresso de leitura — hairline de accent sobre a borda inferior */}
-      <span
-        ref={progress}
-        aria-hidden="true"
-        className="absolute inset-x-0 -bottom-px block h-px origin-left scale-x-0 bg-gradient-to-r from-red-600 via-red-500 to-red-500/40"
-      />
     </header>
   )
 }

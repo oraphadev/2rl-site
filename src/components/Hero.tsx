@@ -97,7 +97,7 @@ export function Hero() {
         <Beam delay={0} className="hidden md:block" />
         <Cross className="-bottom-[9px] -right-[5px] hidden md:block" />
         <div className="relative z-10 max-w-xs">
-          <Meta className="mb-4 text-[10px]">
+          <Meta className="mb-4 text-[10px] hidden">
             <span data-hero-fade="" className="block text-neutral-300">/// Consultoria especializada em IA aplicada</span>
           </Meta>
           <h1
