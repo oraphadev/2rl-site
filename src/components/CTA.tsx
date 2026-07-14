@@ -54,6 +54,8 @@ export function CTA() {
             }}
           />
         </animated.div>
+        {/* legibility scrim — strongest where the copy and button sit */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-950/50 to-neutral-950/30" />
         <div className="noise-overlay absolute inset-0 opacity-30" />
       </div>
 

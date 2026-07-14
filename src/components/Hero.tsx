@@ -14,7 +14,7 @@ function GiantWord() {
     <div aria-hidden="true" className="absolute inset-0 flex items-center justify-center">
       <animated.span
         style={mouse}
-        className="font-display leading-none font-semibold tracking-tighter text-white/95 text-[clamp(7rem,30vw,24rem)] will-change-transform"
+        className="font-display leading-none font-semibold tracking-tighter text-white/95 text-[clamp(8.5rem,42vw,24rem)] will-change-transform"
       >
         {WORD.split('').map((ch, i) => (
           <span key={i} className="hero-letter inline-block will-change-transform">
@@ -78,9 +78,19 @@ export function Hero() {
       className="relative z-20 flex h-svh max-h-[900px] min-h-[640px] w-full flex-col justify-end gap-2 md:grid md:grid-cols-4 md:gap-0"
     >
       {/* giant display word, parallaxed by ScrollSmoother */}
-      <div className="pointer-events-none absolute inset-0 z-0" data-speed="0.82">
+      {/* mobile: in-flow, centered in the free space above the copy; desktop: full-bleed center */}
+      <div
+        className="pointer-events-none relative z-0 min-h-0 flex-1 md:absolute md:inset-0 md:flex-none"
+        data-speed="0.82"
+      >
         <GiantWord />
       </div>
+
+      {/* legibility scrim under the copy */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-2/5 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+      />
 
       {/* column 1 — headline cell */}
       <div className="relative flex flex-col justify-end p-6 md:p-8">
