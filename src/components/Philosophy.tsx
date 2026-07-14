@@ -43,7 +43,7 @@ export function Philosophy() {
         {/* exhibit — generated neural wireframe */}
         <div className="relative min-h-[420px] overflow-hidden md:col-span-5 md:min-h-[560px]">
           <img
-            src="/neural-brain.jpg"
+            src="/neural-brain.webp"
             alt="Ilustração técnica de um cérebro em wireframe com trajetos neurais destacados em vermelho"
             className="absolute inset-0 h-full w-full scale-110 object-cover"
             data-speed="auto"

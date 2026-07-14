@@ -1,6 +1,6 @@
-import { useState, type MouseEvent } from 'react'
+import { useLayoutEffect, useRef, useState, type MouseEvent } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { scrollToId } from '../lib/scroll'
+import { gsap, ScrollTrigger, scrollToId, prefersReducedMotion } from '../lib/scroll'
 import { MenuIcon, CloseIcon } from './ui'
 
 const LINKS = [
@@ -11,6 +11,36 @@ const LINKS = [
 
 export function Header() {
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState<string | null>(null)
+  const progress = useRef<HTMLSpanElement>(null)
+
+  useLayoutEffect(() => {
+    if (prefersReducedMotion()) return
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        progress.current,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          ease: 'none',
+          scrollTrigger: { start: 0, end: 'max', scrub: 0.3 },
+        },
+      )
+      // scroll-spy: acende o link da seção visível
+      LINKS.forEach((l) => {
+        ScrollTrigger.create({
+          trigger: l.href,
+          start: 'top 50%',
+          end: 'bottom 50%',
+          onToggle: (self) => {
+            if (self.isActive) setActive(l.href)
+            else setActive((cur) => (cur === l.href ? null : cur))
+          },
+        })
+      })
+    })
+    return () => ctx.revert()
+  }, [])
 
   const go = (e: MouseEvent, href: string) => {
     e.preventDefault()
@@ -32,16 +62,28 @@ export function Header() {
         </a>
 
         <nav className="hidden items-center gap-10 md:flex" aria-label="Navegação principal">
-          {LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={(e) => go(e, l.href)}
-              className="text-[10px] font-bold tracking-[0.2em] text-neutral-400 uppercase transition-colors hover:text-white"
-            >
-              {l.label}
-            </a>
-          ))}
+          {LINKS.map((l) => {
+            const isActive = active === l.href
+            return (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={(e) => go(e, l.href)}
+                aria-current={isActive ? 'true' : undefined}
+                className={`relative text-[10px] font-bold tracking-[0.2em] uppercase transition-colors hover:text-white ${
+                  isActive ? 'text-white' : 'text-neutral-400'
+                }`}
+              >
+                {l.label}
+                <span
+                  aria-hidden="true"
+                  className={`absolute -bottom-1.5 left-0 h-px w-full origin-left bg-red-500 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    isActive ? 'scale-x-100' : 'scale-x-0'
+                  }`}
+                />
+              </a>
+            )
+          })}
         </nav>
 
         <a
@@ -92,6 +134,13 @@ export function Header() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* progresso de leitura — hairline de accent sobre a borda inferior */}
+      <span
+        ref={progress}
+        aria-hidden="true"
+        className="absolute inset-x-0 -bottom-px block h-px origin-left scale-x-0 bg-gradient-to-r from-red-600 via-red-500 to-red-500/40"
+      />
     </header>
   )
 }

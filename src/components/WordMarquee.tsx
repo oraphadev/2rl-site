@@ -12,9 +12,9 @@ const WORDS = [
   'Execução',
 ]
 
-function Run() {
+function Run({ ariaHidden = false }: { ariaHidden?: boolean }) {
   return (
-    <div className="flex shrink-0 items-center">
+    <div aria-hidden={ariaHidden || undefined} className="flex shrink-0 items-center">
       {WORDS.map((w) => (
         <Fragment key={w}>
           <span className="font-display px-8 text-lg font-medium tracking-tight text-neutral-500 uppercase transition-colors duration-300 hover:text-white md:px-10">
@@ -40,7 +40,7 @@ export function WordMarquee() {
         <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-24 bg-gradient-to-l from-neutral-950 to-transparent md:w-32" />
         <div className="animate-marquee-infinite flex w-max">
           <Run />
-          <Run />
+          <Run ariaHidden />{/* clone visual do loop — invisível para leitores de tela */}
         </div>
       </div>
     </section>

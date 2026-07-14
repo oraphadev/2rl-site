@@ -21,6 +21,38 @@ body {
   font-optical-sizing: auto;
 }
 
+a,
+button {
+  touch-action: manipulation;
+}
+
+/* ---------- anel de foco consistente (teclado apenas) ---------- */
+:focus-visible {
+  outline: 2px solid #ef4444;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ---------- skip link: invisível até receber foco ---------- */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  background: #171717;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 /* ---------- scroll reveal (driven by GSAP; initial state here) ---------- */
 [data-reveal] {
   opacity: 0;

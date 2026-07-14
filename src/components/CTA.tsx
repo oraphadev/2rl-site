@@ -44,9 +44,10 @@ export function CTA() {
         <animated.div style={mouse} className="absolute inset-0 will-change-transform">
           <img
             ref={imgRef}
-            src="/cta-wave.jpg"
+            src="/cta-wave.webp"
             alt=""
             loading="lazy"
+            decoding="async"
             className="h-full w-full scale-[1.12] object-cover object-bottom brightness-110 saturate-125 will-change-transform"
             style={{
               maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%)',
