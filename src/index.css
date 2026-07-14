@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Google Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Google Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Google Sans Code", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ease-reveal: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  background: #0a0a0a;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) #0a0a0a;
+}
+
+body {
+  @apply bg-neutral-950 text-neutral-200 font-sans antialiased overflow-x-hidden min-h-screen selection:bg-red-500/30 selection:text-white;
+  font-optical-sizing: auto;
+}
+
+/* ---------- scroll reveal (driven by GSAP; initial state here) ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(10px);
+  will-change: opacity, transform, filter;
+}
+
+/* ---------- accent beam falling along a hairline rule ---------- */
+@keyframes beam-drop {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(500%); }
+}
+.animate-beam {
+  animation: beam-drop 5s var(--ease-standard) infinite;
+}
+
+/* ---------- infinite marquee ---------- */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee-infinite {
+  animation: marquee 40s linear infinite;
+}
+.animate-marquee-infinite:hover {
+  animation-play-state: paused;
+}
+
+/* ---------- tech-button orbiting border spark ---------- */
+@keyframes border-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-border-spin {
+  animation: border-spin 2s linear infinite;
+}
+
+/* ---------- mock-UI: bar chart growth loop ---------- */
+@keyframes bar-reveal {
+  0% { transform: scaleY(0); opacity: 0; }
+  15% { transform: scaleY(1); opacity: 1; }
+  85% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(0); opacity: 0; }
+}
+.animate-bar-reveal {
+  animation: bar-reveal 6s var(--ease-spring-out) infinite;
+  transform-origin: bottom;
+}
+
+/* ---------- mock-UI: radar sweep ---------- */
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-radar-sweep {
+  animation: radar-sweep 4s linear infinite;
+}
+
+/* ---------- mock-UI: code editor typing (shared 9s master loop) ---------- */
+.typing-line {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  border-right: 2px solid transparent;
+  will-change: width;
+}
+@keyframes type-loop-1 {
+  0% { width: 0; animation-timing-function: steps(26, end); border-color: #ef4444; }
+  12% { width: 100%; animation-timing-function: linear; border-color: transparent; }
+  92% { width: 100%; }
+  100% { width: 0; }
+}
+@keyframes type-loop-2 {
+  0%, 14% { width: 0; border-color: transparent; }
+  15% { width: 0; animation-timing-function: steps(30, end); border-color: #ef4444; }
+  28% { width: 100%; animation-timing-function: linear; border-color: transparent; }
+  92% { width: 100%; }
+  100% { width: 0; }
+}
+@keyframes type-loop-3 {
+  0%, 32% { width: 0; border-color: transparent; }
+  33% { width: 0; animation-timing-function: steps(22, end); border-color: #ef4444; }
+  45% { width: 100%; animation-timing-function: linear; border-color: transparent; }
+  92% { width: 100%; }
+  100% { width: 0; }
+}
+@keyframes type-loop-4 {
+  0%, 49% { width: 0; border-color: transparent; }
+  50% { width: 0; animation-timing-function: steps(28, end); border-color: #ef4444; }
+  63% { width: 100%; animation-timing-function: linear; border-color: transparent; }
+  92% { width: 100%; }
+  100% { width: 0; }
+}
+@keyframes type-loop-5 {
+  0%, 66% { width: 0; border-color: transparent; }
+  67% { width: 0; animation-timing-function: steps(18, end); border-color: #ef4444; }
+  77% { width: 100%; animation-timing-function: linear; border-color: transparent; }
+  92% { width: 100%; }
+  100% { width: 0; }
+}
+.line-1 { animation: type-loop-1 9s infinite; }
+.line-2 { animation: type-loop-2 9s infinite; }
+.line-3 { animation: type-loop-3 9s infinite; }
+.line-4 { animation: type-loop-4 9s infinite; }
+.line-5 { animation: type-loop-5 9s infinite; }
+
+/* ---------- mock-UI: settings toggles (12s master loop, offset per row) ---------- */
+@keyframes toggle-state {
+  0%, 2% { background: #171717; border-color: rgba(255, 255, 255, 0.1); }
+  5%, 14% { background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); }
+  17%, 100% { background: #171717; border-color: rgba(255, 255, 255, 0.1); }
+}
+@keyframes knob-slide {
+  0%, 2% { left: 2px; background: #737373; }
+  5%, 14% { left: 16px; background: #ef4444; }
+  17%, 100% { left: 2px; background: #737373; }
+}
+@keyframes row-active {
+  0%, 2% { background: transparent; }
+  5%, 14% { background: rgba(255, 255, 255, 0.04); }
+  17%, 100% { background: transparent; }
+}
+@keyframes text-active {
+  0%, 2% { color: #a3a3a3; }
+  5%, 14% { color: #ffffff; }
+  17%, 100% { color: #a3a3a3; }
+}
+.toggle-track {
+  animation: toggle-state 12s var(--ease-standard) infinite;
+  animation-delay: var(--d, 0s);
+}
+.toggle-knob {
+  animation: knob-slide 12s var(--ease-spring-out) infinite;
+  animation-delay: var(--d, 0s);
+}
+.toggle-row {
+  animation: row-active 12s var(--ease-standard) infinite;
+  animation-delay: var(--d, 0s);
+}
+.toggle-label {
+  animation: text-active 12s var(--ease-standard) infinite;
+  animation-delay: var(--d, 0s);
+}
+
+/* ---------- film-grain noise (layered between images and text) ----------
+   Darken-only grain: turbulence luminance is mapped to the alpha of a pure
+   black fill (bright noise pixels → visible black specks). It can only
+   darken what's beneath it — never lighten — so deep blacks stay untouched. */
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.7 0.7 0.7 0 -0.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ---------- hero dot-matrix texture ---------- */
+.dot-matrix {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ---------- reduced motion: kill ambient loops, show everything ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .typing-line {
+    width: 100% !important;
+  }
+}
