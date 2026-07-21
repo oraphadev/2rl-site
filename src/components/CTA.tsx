@@ -78,7 +78,7 @@ export function CTA() {
           contexto do seu negócio e descubra o que faz sentido construir.
         </p>
         <div data-reveal="">
-          <TechButton label="Fale conosco" size="lg" href="mailto:contato@2rl.com.br" />
+          <TechButton label="Fale conosco" size="lg" href="https://wa.me/5514996944223" />
         </div>
       </div>
     </section>
